@@ -2,47 +2,90 @@
   <div id="loginBG">
     <div class="container">
       <div id="form-container">
-        <router-view />
+        <form id="login-form" @submit.prevent="Login">
+          <img alt="Travel Logo" src="../assets/travel-logo.png" />
+          <h1 class="title-page">Log In</h1>
+          <input type="text" id="email" placeholder="Email" v-model="email" />
+          <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            v-model="password"
+          />
+          <div class="error" v-if="this.errorMssg">{{ errorMssg }}</div>
+          <p>
+            Don't have an account?
+            <router-link id="register" :to="{ name: 'Register' }">
+              Register
+            </router-link>
+          </p>
+          <button id="form-btn" type="submit">Log In</button>
+        </form>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import "firebase/compat/auth";
+import firebase from "firebase/compat/app";
+import "../firebase/firebaseInit";
+import { mapActions } from "vuex";
+
 export default {
   name: "Login",
+  data() {
+    return {
+      email: "",
+      password: "",
+      errorMssg: "",
+    };
+  },
+  methods: {
+    ...mapActions({
+      setUserCredentials: "user/setUserCredentials",
+    }),
+    Login() {
+      firebase
+        .auth()
+        .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+        .then(() => {
+          firebase
+            .auth()
+            .signInWithEmailAndPassword(this.email, this.password)
+            .then((data) => {
+              const userData = {
+                id: data.user.uid,
+                email: data.user.email,
+                name: data.user.email.split("@")[0],
+                refreshToken: data.user.refreshToken,
+              };
+              this.setUserCredentials({ ...userData });
+              this.$router.push({ name: "Home" });
+              this.errorMssg = "";
+            })
+            .catch((e) => {
+              this.errorMssg = e.message;
+            });
+        });
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
-#loginBG {
-  height: 100%;
-  background-image: url("../assets/LoginBG2.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center 5%;
-}
-#form-container {
-  font-size: 1em;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(255, 255, 255, 0.75);
-  position: absolute;
-  padding: 0.5rem;
-
-  @media (min-width: 768px) {
-    border-radius: 0.5em;
-    height: 25em;
-    width: 30em;
-    left: 10em;
-    top: 10em;
+#register {
+  text-decoration: none;
+  color: rgba(223, 37, 37, 0.85);
+  &:hover {
+    color: red;
+    font-weight: bold;
   }
 }
-
-form {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+img {
+  width: 15em;
+  @media (min-width: 768px) {
+    position: absolute;
+    top: -5em;
+  }
 }
 </style>

@@ -1,39 +1,31 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
-    name: "LoginLandingPage",
+    path: "/login",
+    name: "Login",
     component: () => import("@/views/Login.vue"),
     meta: {
-      requiresAuth: true,
+      requiresGuest: true,
     },
-    children: [
-      {
-        path: "login",
-        name: "Login",
-        component: () => import("@/components/LoginComponent.vue"),
-        meta: {
-          title: "Login",
-          requiresAuth: false,
-        },
-      },
-      {
-        path: "register",
-        name: "Register",
-        component: () => import("@/components/RegisterComponent.vue"),
-        meta: {
-          title: "Register",
-          requiresAuth: false,
-        },
-      },
-    ],
   },
   {
-    path: "/home",
+    path: "/register",
+    name: "Register",
+    component: () => import("@/views/Register.vue"),
+    meta: {
+      title: "Register",
+      requiresGuest: true,
+    },
+  },
+
+  {
+    path: "/",
     name: "Home",
     component: () => import("@/views/Home.vue"),
     meta: {
@@ -59,10 +51,22 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth) {
-    next({
-      name: "Login",
-    });
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (!firebase.auth().currentUser) {
+      next({
+        name: "Login",
+      });
+    } else {
+      next();
+    }
+  } else if (to.matched.some((record) => record.meta.requiresGuest)) {
+    if (firebase.auth().currentUser) {
+      next({
+        name: "Home",
+      });
+    } else {
+      next();
+    }
   } else {
     next();
   }

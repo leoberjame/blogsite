@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "firebase": "^9.0.0",
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
+    "vue-template-compiler": "^2.6.14",
     "vuex": "^3.4.0"
   },
   "devDependencies": {
@@ -31,8 +33,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "prettier": "^2.2.1",
     "sass": "^1.26.5",
-    "sass-loader": "^8.0.2",
-    "vue-template-compiler": "^2.6.11"
+    "sass-loader": "^8.0.2"
   },
   "eslintConfig": {
     "root": true,
