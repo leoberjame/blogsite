@@ -62,6 +62,8 @@ export default {
         };
         this.creatPost(post);
         this.$emit("newPostAdded", post);
+        this.title = "";
+        this.content = "";
       });
     },
     formatData(userId, title, content, dateCreated, id = null) {
@@ -105,7 +107,12 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  gap: 0.2em;
   justify-content: space-evenly;
+
+  @media (min-width: 768px) {
+    gap: 0.4em;
+  }
   input {
     width: auto;
     height: 1.5em;

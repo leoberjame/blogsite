@@ -33,6 +33,9 @@ export default {
 h3 {
   margin: 0.45em 0;
 }
+.content {
+  text-align: justify;
+}
 .custom-styles {
   min-height: 5em;
 }

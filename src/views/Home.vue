@@ -56,17 +56,19 @@ export default {
     setStatic() {
       this.posts = [
         {
-          id: "static id",
+          id: "static id 01",
           userId: "static userId",
           title: "static title",
-          content: "static content",
+          content:
+            "static content Lorem ipsum dolor sit amet elit. qui optio, ab cumque autem debitis.",
           dateCreated: "static Sep 2 2021",
         },
         {
-          id: "static id",
+          id: "static id 02",
           userId: "static userId",
           title: "static title",
-          content: "static content",
+          content:
+            "static content Lorem ipsum dolor sit amet elit. qui optio, ab cumque autem debitis.",
           dateCreated: "static Sep 2 2021",
         },
       ];
@@ -75,7 +77,7 @@ export default {
   mounted() {
     this.user = firebase.auth().currentUser;
     this.userName = this.user ? this.user.email.split("@")[0] : "No User";
-    this.posts.length > 0 ? this.setStatic() : null;
+    this.posts.length > 0 ? null : this.setStatic();
     this.getPost();
   },
 };
