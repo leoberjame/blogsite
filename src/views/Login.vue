@@ -3,9 +3,15 @@
     <div class="container">
       <div id="form-container">
         <form id="login-form" @submit.prevent="Login">
-          <img alt="Travel Logo" src="../assets/travel-logo.png" />
+          <img alt="Travel Logo" src="@/assets/travel-logo.png" />
           <h1 class="title-page">Log In</h1>
-          <input type="text" id="email" placeholder="Email" v-model="email" />
+          <input
+            type="text"
+            id="email"
+            placeholder="Email"
+            v-model="email"
+            autocomplete="off"
+          />
           <input
             type="password"
             id="password"

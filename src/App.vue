@@ -10,6 +10,7 @@ body,
 #app {
   margin: 0;
   height: 100%;
+  overflow: hidden;
 }
 
 * {
@@ -77,5 +78,22 @@ form {
 #form-btn {
   width: 20em;
   padding: 0.5em;
+}
+
+.post-card-container {
+  padding: 0.5em;
+  margin: 0.5em;
+  width: 100%;
+  border: 1px solid #e5ddc8;
+  background-color: white;
+
+  @media (min-width: 768px) {
+    width: 40em;
+    border-radius: 0.8em;
+  }
+  @media (min-width: 1024px) {
+    width: 60em;
+    border-radius: 0.8em;
+  }
 }
 </style>

@@ -5,7 +5,13 @@
         <form id="register-form" @submit.prevent="Register">
           <img alt="Travel Logo" src="../assets/travel-logo.png" />
           <h1 class="title-page">Register</h1>
-          <input type="text" id="email" placeholder="Email" v-model="email" />
+          <input
+            type="text"
+            id="email"
+            placeholder="Email"
+            v-model="email"
+            autocomplete="off"
+          />
           <input
             type="password"
             id="password"
