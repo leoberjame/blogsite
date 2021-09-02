@@ -5,6 +5,15 @@
       <home-content :msg="`Welcome to Explore Travel Blogs, ${userName}`" />
       <add-post-comp :user="user" @newPostAdded="updatePost" />
       <post-card-comp
+        :id="staticPost.id"
+        :userId="staticPost.userId"
+        :title="staticPost.title"
+        :content="staticPost.content"
+        :dateCreated="staticPost.dateCreated"
+        :key="staticPost.id"
+        v-show="posts.length == 0"
+      />
+      <post-card-comp
         v-for="post in posts"
         :id="post.id"
         :userId="post.userId"
@@ -39,6 +48,14 @@ export default {
       userName: "",
       user: null,
       posts: [],
+      staticPost: {
+        id: "static id 01",
+        userId: "static userId",
+        title: "static title",
+        content:
+          "static content Lorem ipsum dolor sit amet elit. qui optio, ab cumque autem debitis.",
+        dateCreated: "static Sep 2 2021",
+      },
     };
   },
   methods: {
@@ -53,31 +70,10 @@ export default {
       this.posts = [];
       this.getPost();
     },
-    setStatic() {
-      this.posts = [
-        {
-          id: "static id 01",
-          userId: "static userId",
-          title: "static title",
-          content:
-            "static content Lorem ipsum dolor sit amet elit. qui optio, ab cumque autem debitis.",
-          dateCreated: "static Sep 2 2021",
-        },
-        {
-          id: "static id 02",
-          userId: "static userId",
-          title: "static title",
-          content:
-            "static content Lorem ipsum dolor sit amet elit. qui optio, ab cumque autem debitis.",
-          dateCreated: "static Sep 2 2021",
-        },
-      ];
-    },
   },
   mounted() {
     this.user = firebase.auth().currentUser;
     this.userName = this.user ? this.user.email.split("@")[0] : "No User";
-    this.posts.length > 0 ? null : this.setStatic();
     this.getPost();
   },
 };
